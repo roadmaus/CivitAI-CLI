@@ -1449,6 +1449,14 @@ class ModelDisplay:
                             if image_format not in {"png", "jpeg", "gif"}:
                                 raise Image.UnidentifiedImageError("Unsupported image format")
                             
+                            elif image_format == "gif":
+                                # If action is 'blockify', use the -b option in viu
+                                if action == 'blockify':
+                                    subprocess.run(["viu", "-b", "-f", "10", "-1", "-w", str(new_width), "-h", str(new_height), temp_file.name])
+                                else:
+                                    subprocess.run(["viu", "-f", "10", "-1", "-w", str(new_width), "-h", str(new_height), temp_file.name])
+                                return
+
                             with NamedTemporaryFile(suffix=f".{image_format}", delete=True) as temp_file:
                                 temp_file.write(image_data)
                                 temp_file.flush()
